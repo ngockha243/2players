@@ -125,7 +125,14 @@ namespace TicTacToe
         private void ChangeTurn()
         {
             currentSide = currentSide == Side.red ? Side.blue : Side.red;
-
+            if(currentSide == Side.red)
+            {
+                view.Block(false);
+            }
+            else
+            {
+                view.Block(true);
+            }
             if (currentSide == Side.blue)
             {
                 StartBotTurn();
@@ -173,7 +180,7 @@ namespace TicTacToe
         }
         private IEnumerator BotGoHard()
         {
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(1.5f);
             int move = GetBestMove();
             //board[move] = 1;
             MakeMove(move, computer);

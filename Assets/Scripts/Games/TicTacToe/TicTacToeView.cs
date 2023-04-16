@@ -16,6 +16,7 @@ namespace TicTacToe
         [SerializeField] private ScoreUI scoreUI;
         [SerializeField] private CountDownUI countDownUI;
         [SerializeField] private WinUI winUI;
+        [SerializeField] private GameObject block;
 
         public void ChangeTurn(Side side)
         {
@@ -51,6 +52,10 @@ namespace TicTacToe
             {
                 winUI.ShowDraw();
             }
+        }
+        public void Block(bool active)
+        {
+            block.SetActive(active);
         }
     }
 }

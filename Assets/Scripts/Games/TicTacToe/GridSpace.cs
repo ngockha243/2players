@@ -31,5 +31,13 @@ namespace TicTacToe
         {
             button.interactable = false;
         }
+        public void Reset()
+        {
+            btnImage.color = new Color(1f, 1f, 1f, 0f);
+            btnImage.sprite = null;
+            button.interactable = true;
+            IsInteractable = true;
+            side = Side.none;
+        }
     }
 }

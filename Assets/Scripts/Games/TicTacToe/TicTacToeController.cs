@@ -33,6 +33,7 @@ namespace TicTacToe
         private int moveCount = 0;
         private bool isWin = false;
         private char[] board = new char[9] { '-', '-', '-', '-', '-', '-', '-', '-', '-' };
+        private Side firstSide = Side.red;
         private void Awake()
         {
             //Load Services
@@ -116,26 +117,51 @@ namespace TicTacToe
 
             if (moveCount >= 9)
             {
-                isWin = true;
-                StartCoroutine(DelayForWin(Side.none));
+                StartCoroutine(ResetGame());
             }
 
             ChangeTurn();
         }
-        private void ChangeTurn()
+        private IEnumerator ResetGame()
         {
-            currentSide = currentSide == Side.red ? Side.blue : Side.red;
-            if(currentSide == Side.red)
+            view.Block(true);
+            moveCount = 0;
+            yield return new WaitForSeconds(0.5f);
+            for(int i = 0; i < board.Length; i++)
             {
-                view.Block(false);
+                board[i] = '-';
+            }
+            foreach(var i in gridSpaces)
+            {
+                i.Reset();
+            }
+            if(firstSide == Side.red)
+            {
+                firstSide = Side.blue;
             }
             else
             {
-                view.Block(true);
+                firstSide = Side.red;
             }
-            if (currentSide == Side.blue)
+            view.Reset();
+        }
+        private void ChangeTurn()
+        {
+            currentSide = currentSide == Side.red ? Side.blue : Side.red;
+            if(mode != GameMode.Pvp)
             {
-                StartBotTurn();
+                if(currentSide == Side.red)
+                {
+                    view.Block(false);
+                }
+                else
+                {
+                    view.Block(true);
+                }
+                if (currentSide == Side.blue)
+                {
+                    StartBotTurn();
+                }
             }
 
             if (isWin == false)

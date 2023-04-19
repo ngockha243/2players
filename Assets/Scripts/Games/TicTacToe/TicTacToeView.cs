@@ -1,3 +1,4 @@
+using DG.Tweening;
 using GameUI;
 using System;
 using System.Collections;
@@ -17,6 +18,7 @@ namespace TicTacToe
         [SerializeField] private CountDownUI countDownUI;
         [SerializeField] private WinUI winUI;
         [SerializeField] private GameObject block;
+        [SerializeField] private Transform tfReset;
 
         public void ChangeTurn(Side side)
         {
@@ -56,6 +58,15 @@ namespace TicTacToe
         public void Block(bool active)
         {
             block.SetActive(active);
+        }
+        public void Reset()
+        {
+            tfReset.gameObject.SetActive(true);
+            tfReset.DOScale(new Vector3(30f, 30f, 30f), 0.5f).SetEase(Ease.Linear).OnComplete(() =>
+            {
+                tfReset.localScale = Vector3.zero;
+                tfReset.gameObject.SetActive(false);
+            });
         }
     }
 }
